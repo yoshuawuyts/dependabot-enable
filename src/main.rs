@@ -22,6 +22,8 @@ use structopt::StructOpt;
 fn main() -> Result<(), ExitFailure> {
   setup_panic!();
   let args = Cli::from_args();
+  args.log(env!("CARGO_PKG_NAME"))?;
+
   let auth = Authenticator::builder(env!("CARGO_PKG_NAME").into())
     .scope(Scope::PublicRepo)
     .build();
@@ -29,7 +31,11 @@ fn main() -> Result<(), ExitFailure> {
   let token = auth.auth()?;
   let stats = github_local_remote::stat(".")?;
   println!("stats {:?}", stats);
-  args.log(env!("CARGO_PKG_NAME"))?;
-  info!("program started");
+
+  dependabot_enable::enable(
+    token.into_string(),
+    stats.user().into(),
+    stats.repo().into(),
+  )?;
   Ok(())
 }

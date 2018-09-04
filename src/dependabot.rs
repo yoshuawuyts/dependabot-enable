@@ -2,6 +2,11 @@
 pub const UPDATE_CONFIGS_URL: &str =
   "https://api.dependabot.com/update_configs";
 
+/// Enable dependabot for a repo.
+pub fn enable(token: String, user: String, repo: String) -> ::Result<()> {
+  unimplemented!();
+}
+
 /// Rules on how to merge dependencies.
 enum AutomergeRule {
   /// Never merge.
@@ -46,9 +51,4 @@ struct UpdateConfigs {
   automerge_rule_development_deps: Option<AutomergeRule>,
   /// One of "never", "security", "patch", or "minor".
   automerge_rule_runtime_deps: Option<AutomergeRule>,
-}
-
-/// Enable dependabot for a repo.
-pub fn enable(token: String, user: String, repo: String) -> ::Result<()> {
-  unimplemented!();
 }
